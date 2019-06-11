@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__). '/../../library.php');
-class uPlexaPaymentModuleFrontController extends ModuleFrontController
+class NimiqPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = false;
 
@@ -21,16 +21,16 @@ class uPlexaPaymentModuleFrontController extends ModuleFrontController
 		$actual = $this->retriveprice($currency_iso);
 
 		$payment_id  = $this->set_paymentid_cookie();
-		$address = Configuration::get('UPLEXA_ADDRESS');
-		$uri = "uplexa:$address?amount=$amount?payment_id=$payment_id";
+		$address = Configuration::get('NIMIQ_ADDRESS');
+		$uri = "nimiq:$address?amount=$amount?payment_id=$payment_id";
 		$status = "Awaiting Confirmation...";
 
 
-		$daemon_address = Configuration::get('UPLEXA_WALLET');
+		$daemon_address = Configuration::get('NIMIQ_WALLET');
 
-		$this->uplexa_daemon = new uPlexa_Library('http://'. $daemon_address .'/json_rpc'); // example $daemon address 127.0.0.1:21061
+		$this->nimiq_daemon = new Nimiq_Library('http://'. $daemon_address .'/json_rpc'); // example $daemon address 127.0.0.1:21061
 
-		$integrated_address_method = $this->uplexa_daemon->make_integrated_address($payment_id);
+		$integrated_address_method = $this->nimiq_daemon->make_integrated_address($payment_id);
 		$integrated_address = $integrated_address_method["integrated_address"];
 
         if($this->verify_payment($payment_id, $amount))
@@ -53,7 +53,7 @@ class uPlexaPaymentModuleFrontController extends ModuleFrontController
     		'status' => $status
     	));
 
-        $this->setTemplate('module:uplexa/views/templates/front/payment_execution.tpl');
+        $this->setTemplate('module:nimiq/views/templates/front/payment_execution.tpl');
 
     }
 
@@ -71,7 +71,7 @@ class uPlexaPaymentModuleFrontController extends ModuleFrontController
 
 	public function retriveprice($c)
 				{
-								$upx_price = Tools::file_get_contents('https://uplexa.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP');
+								$upx_price = Tools::file_get_contents('https://nimiq.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP');
 								$price         = json_decode($upx_price, TRUE);
 
 								if ($c == 'USD') {
@@ -111,7 +111,7 @@ class uPlexaPaymentModuleFrontController extends ModuleFrontController
        */
 
       $amount_atomic_units = $amount * 100;
-      $get_payments_method = $this->uplexa_daemon->get_payments($payment_id);
+      $get_payments_method = $this->nimiq_daemon->get_payments($payment_id);
       if(isset($get_payments_method["payments"][0]["amount"]))
       {
 		if($get_payments_method["payments"][0]["amount"] >= $amount_atomic_units)

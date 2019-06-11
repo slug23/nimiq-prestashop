@@ -1,6 +1,6 @@
 <?php
 /**
- *      uPlexa Payment Integration with Prestashop
+ *      Nimiq Payment Integration with Prestashop
  *	Supported Version : 1.7
  */
 
@@ -8,17 +8,18 @@
 // Prestashop 1.7 Compatibility
 use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
-class uPlexa extends PaymentModule{
+class Nimiq extends PaymentModule{
 
         private $_html = '';
         private $_postErrors = array();
 
+
         function __construct(){
 
-                $this->name = "uplexa";
+                $this->name = "nimiq";
                 $this->tab = 'payments_gateways';
                 $this->version = '0.1.0';
-                $this->author = 'uPlexa Team';
+                $this->author = 'Slug';
                 $this->need_instance = 1;
                 $this->bootstrap = true;
                  $this->controllers = array('payment');
@@ -26,8 +27,8 @@ class uPlexa extends PaymentModule{
             	 $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
                 parent::__construct();
 
-                $this->displayName = $this->l('uPlexa Payments');
-                $this->description = $this->l('Module for accepting payments by uPlexa');
+                $this->displayName = $this->l('Nimiq Payments');
+                $this->description = $this->l('Module for accepting payments by Nimiq');
                 $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
 
         }
@@ -60,16 +61,16 @@ class uPlexa extends PaymentModule{
 
             if (Tools::isSubmit('submit'.$this->name))
     {
-        $uplexa_address = strval(Tools::getValue('UPLEXA_ADDRESS'));
-        $uplexa_wallet = strval(Tools::getvalue('UPLEXA_WALLET'));
-        if (!$uplexa_address
-          || empty($uplexa_address)
-          || !Validate::isGenericName($uplexa_address))
+        $nimiq_address = strval(Tools::getValue('NIMIQ_ADDRESS'));
+        $nimiq_wallet = strval(Tools::getvalue('NIMIQ_WALLET'));
+        if (!$nimiq_address
+          || empty($nimiq_address)
+          || !Validate::isGenericName($nimiq_address))
             $output .= $this->displayError($this->l('Invalid Configuration value'));
         else
         {
-            Configuration::updateValue('UPLEXA_ADDRESS', $uplexa_address);
-            Configuration::updateValue('UPLEXA_WALLET', $uplexa_wallet);
+            Configuration::updateValue('NIMIQ_ADDRESS', $nimiq_address);
+            Configuration::updateValue('NIMIQ_WALLET', $nimiq_wallet);
             $output .= $this->displayConfirmation($this->l('Settings updated'));
         }
     }
@@ -91,15 +92,15 @@ public function displayForm()
         'input' => array(
             array(
                 'type' => 'text',
-                'label' => $this->l('uPlexa Address'),
-                'name' => 'UPLEXA_ADDRESS',
-                'size' => 20,
+                'label' => $this->l('Nimiq Address'),
+                'name' => 'NIMIQ_ADDRESS',
+                'size' => 44,
                 'required' => true
             ),
             array(
             	'type' => 'text',
-            	'label' => $this->l('uPlexa Wallet RPC IP'),
-            	'name' => 'UPLEXA_WALLET',
+            	'label' => $this->l('Nimiq Wallet RPC IP'),
+            	'name' => 'NIMIQ_WALLET',
             	'required' => false
             )
         ),
@@ -140,8 +141,8 @@ public function displayForm()
     );
 
     // Load current value
-    $helper->fields_value['UPLEXA_ADDRESS'] = Configuration::get('UPLEXA_ADDRESS');
-    $helper->fields_value['UPLEXA_WALLET'] = Configuration::get('UPLEXA_WALLET');
+    $helper->fields_value['NIMIQ_ADDRESS'] = Configuration::get('NIMIQ_ADDRESS');
+    $helper->fields_value['NIMIQ_WALLET'] = Configuration::get('NIMIQ_WALLET');
 
     return $helper->generateForm($fields_form);
 }
@@ -155,9 +156,9 @@ public function hookPaymentOptions($params)
 
         $newOption = new PaymentOption();
         $newOption->setModuleName($this->name)
-                ->setCallToActionText("uPlexa")
+                ->setCallToActionText("Nimiq")
                 ->setAction($this->context->link->getModuleLink($this->name, 'payment', array(), true))
-                ->setAdditionalInformation($this->fetch('module:uplexa/views/templates/front/payment_infos.tpl'));
+                ->setAdditionalInformation($this->fetch('module:nimiq/views/templates/front/payment_infos.tpl'));
 
         return [$newOption];
      }

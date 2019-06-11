@@ -1,8 +1,8 @@
 <?php
 include(dirname(__FILE__). '/../../library.php');
-class uplexaValidationModuleFrontController extends ModuleFrontController
+class nimiqValidationModuleFrontController extends ModuleFrontController
 {
-	private $uplexa_daemon;
+	private $nimiq_daemon;
 
 	public function postProcess()
 	{
@@ -13,10 +13,10 @@ class uplexaValidationModuleFrontController extends ModuleFrontController
 		$amount = $this->changeto($total, $c);
 		$actual = $this->retriveprice($c);
 		$payment_id  = $this->get_paymentid_cookie();
-		$daemon_address = Configuration::get('UPLEXA_WALLET');
-		$status = "We are waiting for your payment to be confirmed by the uPlexa network.";
+		$daemon_address = Configuration::get('NIMIQ_WALLET');
+		$status = "We are waiting for your payment to be confirmed by the Nimiq network.";
 
-		$this->uplexa_daemon = new uPlexa_Library('http://'. $daemon_address .'/json_rpc');
+		$this->nimiq_daemon = new Nimiq_Library('http://'. $daemon_address .'/json_rpc');
 		if($this->verify_payment($payment_id, $amount))
 		{
 			$status = "Thank you. Your order has been received.";
@@ -37,7 +37,7 @@ class uplexaValidationModuleFrontController extends ModuleFrontController
 
 	public function retriveprice($c)
 	{
-		$xmr_price = Tools::file_get_contents('https://uplexa.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP&extraParams=uplexa_prestashop');
+		$xmr_price = Tools::file_get_contents('https://nimiq.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP&extraParams=nimiq_prestashop');
 		$price         = json_decode($xmr_price, TRUE);
 
 		if ($c== 'USD') {
@@ -64,7 +64,7 @@ class uplexaValidationModuleFrontController extends ModuleFrontController
 	{
 		$xmr_live_price = $this->retriveprice($currency);
 		$new_amount     = $amount / $xmr_live_price;
-		$rounded_amount = round($new_amount, 2); //the uPlexa wallet can't handle decimals smaller than 0.01
+		$rounded_amount = round($new_amount, 2); //the Nimiq wallet can't handle decimals smaller than 0.01
 		return $rounded_amount;
 	}
 
@@ -76,7 +76,7 @@ class uplexaValidationModuleFrontController extends ModuleFrontController
        */
 
       $amount_atomic_units = $amount * 100;
-      $get_payments_method = $this->uplexa_daemon->get_payments($payment_id);
+      $get_payments_method = $this->nimiq_daemon->get_payments($payment_id);
       if(isset($get_payments_method["payments"][0]["amount"]))
       {
 		if($get_payments_method["payments"][0]["amount"] >= $amount_atomic_units)

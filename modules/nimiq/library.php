@@ -8,7 +8,7 @@
  * @author Kacper Rowinski <krowinski@implix.com>
  * http://implix.com
  */
-class uPlexa_Library
+class Nimiq_Library
 {
     protected $url = null, $is_debug = false, $parameters_structure = 'array';
     private $username;
@@ -225,7 +225,7 @@ class uPlexa_Library
     }
 
     /*
-     * The following functions can all be called to interact with the uplexa rpc wallet
+     * The following functions can all be called to interact with the nimiq rpc wallet
      * They will majority of them will return the result as an array
      * Example: $daemon->address(); where $daemon is an instance of this class, will return the wallet address as string within an array
      */

@@ -10,7 +10,7 @@
         			                         <div class='panel-body'>
 				                                <div class='row'>
 					                               <div class='col-sm-12 col-md-12 col-lg-12'>
-						                                  <h3> uPlexa Payment Box</h3>
+						                                  <h3> Nimiq Payment Box</h3>
 					                               </div>
 					                           <div class='col-sm-3 col-md-3 col-lg-3'>
 						                          <img src='https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl={$uri|escape:'html':'UTF-8'}' class='img-responsive'>
@@ -18,7 +18,7 @@
 					                           <div class='col-sm-9 col-md-9 col-lg-9' style='padding:10px;'>
 						                          Send <b> {$amount|escape:'html':'UTF-8'} UPX</b> to<br/><input type='text'  class='form-control' value='{$integrated_address|escape:'html':'UTF-8'}'>
                                                 or scan QR Code with your mobile device<br/><br/>
-                                                <small>If you need help with how to pay with uPlexa or want to learn more about it, please go to the uPlexa <a href='https://uplexa.com'>site</a>. </small><br>
+                                                <small>If you need help with how to pay with Nimiq or want to learn more about it, please go to the Nimiq <a href='https://nimiq.com'>site</a>. </small><br>
                                                 <h5>{$status}</h5>
 					                           </div>
 
