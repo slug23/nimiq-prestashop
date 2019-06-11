@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__). '/../../library.php');
-class NimiqPaymentModuleFrontController extends ModuleFrontController
+class nimiqPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = false;
 
@@ -18,7 +18,7 @@ class NimiqPaymentModuleFrontController extends ModuleFrontController
         $total = $cart->getOrderTotal(true, Cart::BOTH);
 
 		$amount = $this->changeto($total, $currency_iso);
-		$actual = $this->retriveprice($currency_iso);
+		$actual = $this->retrieveprice($currency_iso);
 
 		$payment_id  = $this->set_paymentid_cookie();
 		$address = Configuration::get('NIMIQ_ADDRESS');
@@ -69,9 +69,9 @@ class NimiqPaymentModuleFrontController extends ModuleFrontController
 					return $payment_id;
 				}
 
-	public function retriveprice($c)
+	public function retrieveprice($c)
 				{
-								$upx_price = Tools::file_get_contents('https://nimiq.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP');
+								$nim_price = Tools::file_get_contents('https://nimiq.com/data?currencies=BTC,USD,EUR,CAD,INR,GBP');
 								$price         = json_decode($upx_price, TRUE);
 
 								if ($c == 'USD') {
@@ -96,7 +96,9 @@ class NimiqPaymentModuleFrontController extends ModuleFrontController
 
 	public function changeto($amount, $currency)
 	{
-		$upx_live_price = $this->retriveprice($currency);
+		// SLUG FIX CURRENCY CONVERTER
+		//$upx_live_price = $this->retrieveprice($currency);
+		$upx_live_price = 0.001;
 		echo $upx_live_price;
 		$new_amount     = $amount / $upx_live_price;
 		$rounded_amount = round($new_amount, 2); //the moneo wallet can't handle decimals smaller than 0.000000000001
