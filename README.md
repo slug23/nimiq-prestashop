@@ -1,5 +1,5 @@
-# uPlexa PrestaShop
-A Prestashop addon for accepting uPlexa (UPX)
+# Nimiq PrestaShop
+A Prestashop addon for accepting Nimiq (NIM)
 
 Compatible with the stable version of Prestashop (1.6.x). And working on 1.7.x
 
