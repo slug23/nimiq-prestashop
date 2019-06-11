@@ -16,7 +16,7 @@
 						                          <img src='https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl={$uri|escape:'html':'UTF-8'}' class='img-responsive'>
 					                           </div>
 					                           <div class='col-sm-9 col-md-9 col-lg-9' style='padding:10px;'>
-						                          Send <b> {$amount|escape:'html':'UTF-8'} UPX</b> to<br/><input type='text'  class='form-control' value='{$integrated_address|escape:'html':'UTF-8'}'>
+						                          Send <b> {$amount|escape:'html':'UTF-8'} NIM</b> to<br/><input type='text'  class='form-control' value='{$integrated_address|escape:'html':'UTF-8'}'>
                                                 or scan QR Code with your mobile device<br/><br/>
                                                 <small>If you need help with how to pay with Nimiq or want to learn more about it, please go to the Nimiq <a href='https://nimiq.com'>site</a>. </small><br>
                                                 <h5>{$status}</h5>
